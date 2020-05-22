@@ -6,11 +6,15 @@
 </head>
 <body>
 <a href="{{ url_for('main') }}">Return main page</a>
+<form method="post" action="room">
+    <button type="button">Create new Room</button>
+</form>
 <h2>Messages</h2>
 
-<form method="post" action="add_message">
+<form method="post" action="messages">
     <input type="text" name="text">
     <button type="submit">Send</button>
+
 </form>
 
 <h3>Live chat</h3>
