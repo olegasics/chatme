@@ -1,0 +1,38 @@
+body {
+    background-color: azure;
+    margin: 0px;
+    padding: 0;
+}
+
+#main {
+    width: 1024px;
+    margin: 0 auto;
+    background-color: cornsilk;
+}
+
+#menu {
+    padding: 20px;
+}
+
+#content {
+    background-color: azure;
+    text-align: center;
+    /*padding: 400px;*/
+    padding-left: 300px;
+}
+
+#footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+#list-chat {
+    padding-left: 200px;
+    margin-top: -200px;
+}
+
+#create-room {
+
+}
