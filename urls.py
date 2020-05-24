@@ -12,4 +12,5 @@ def register_api(view, endpoint, url, pk='id', pk_type='int'):
 
 
 register_api(UserAPI, 'user_api', '/users/', pk='user_id')
+# register_api(MessageAPI, 'message_api', '/messages/', pk='message_text')
 
