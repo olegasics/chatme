@@ -8,7 +8,7 @@ cfg = config.read('settings_dev.ini')
 USER_NAME = config.get('database', 'bd_user')
 PASSWORD = config.get('database', 'password_db')
 DB_NAME = config.get('database', 'db_name')
-
+SECRET_KEY = config.get('flask', 'secret_key')
 
 class DbConnectSingleton:
     """
@@ -22,6 +22,7 @@ class DbConnectSingleton:
             app = Flask(__name__)
             app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://chat_admin:edcvfr12!@localhost:5432/chat_db'
             app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+            app.secret_key = SECRET_KEY
             return SQLAlchemy(app)
         return DbConnectSingleton.__instance
 

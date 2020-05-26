@@ -1,19 +1,13 @@
-from datetime import datetime
-
 import db_config
+from apps.auth.models import User
+
+from datetime import datetime
 
 db = db_config.DbConnectSingleton().get_instance()
 
 user_room = db.Table('user_room',
                      db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
                      db.Column('room_id', db.Integer, db.ForeignKey('room.id'), primary_key=True))
-
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    login = db.Column(db.String(20), nullable=False, unique=True)
-    password = db.Column(db.String(50), nullable=False)
-    nick_name = db.Column(db.String(20), unique=True, nullable=False)
 
 
 class Room(db.Model):

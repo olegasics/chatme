@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registration</title>
+    <title>Login</title>
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
@@ -13,7 +13,7 @@
 
         </div>
         <div id="content">
-             {% with messages = get_flashed_messages() %}
+            {% with messages = get_flashed_messages() %}
                 {% if messages %}
                     <ul class=flashes>
                      {% for message in messages %}
@@ -21,16 +21,13 @@
                     {% endfor %}
                     </ul>
                 {% endif %}
-             {% endwith %}
+            {% endwith %}
 
-            <form method='post' action="{{ url_for('user_api') }}">
-
-                <h2>Registration</h2>
+            <form method='post' action="{{ url_for('auth_api') }}">
+                <h2>Login</h2>
                 <input placeholder="Login" type="text" name="login">
                 <input placeholder="Password" type="password" name="password">
-                <input placeholder="Retype Password" type="password" name="password2">
-                <input placeholder="Your nickname" type="text" name="nickname">
-                <button type="submit">Registration</button>
+                <button type="submit">LOGIN</button>
             </form>
 
         </div>
