@@ -1,9 +1,6 @@
-import db_config
-from apps.auth.models import User
-
 from datetime import datetime
 
-db = db_config.DbConnectSingleton().get_instance()
+from db_config import db
 
 user_room = db.Table('user_room',
                      db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),

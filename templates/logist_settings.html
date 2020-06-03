@@ -2,9 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Settings</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/templates/checkbox.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/templates/create_entity.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/templates/toggle.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/templates/putch_order.js')}}"></script>
 </head>
 <body>
-$END$
+<div id="main">
+    <img src='/static/images/top_logo.gif' width="250" height="70">
+    <div id="menu">
+        
+    </div>
+    <div id="content">
+        <label>
+            <input type="checkbox" id="shest0" {% if ended == '1' %} checked {% endif %}>
+            <span>Not ended</span>
+        </label>
+        <div id="orders" style="position: relative">
+            <form method="post" action="/logists/update-orders">
+                <button type="submit">Update</button>
+            </form>
+            <table>
+                <a href='#' id="toggle-create-order">Toggle</a>
+                <tr class="custom-order">
+                    <th> 
+                        <input id='custom_order_project' style="width: 80px;" placeholder="Project name" type="text">
+                        <input style="width: 80px;" id='custom_order_invoice' placeholder="Invoice" type="text">
+                        <input id='custom_order_cargo' style="width: 80px;" placeholder="Cargo" type="text">
+                    </th>
+                
+                    <th> 
+                        <input style="width: 100px;" id='custom_order_status' placeholder="Status" type="text">
+                    </th>
+                    <th>
+                        <input style="width: 80px;" placeholder="Carrier" id='custom_order_carrier' type="text">
+                    </th>
+                    <th>
+                        <input style="width: 150px;" id='custom_order_sender' placeholder="Sender" type="text">
+                    </th>
+                    <th>
+                        <input style="width: 150px;" id='custom_order_receiver' placeholder="Receiver" type="text">
+                    </th>
+                    <th>
+                        <input style="width: 150px;" id='custom_order_document' placeholder="Document" type="text">
+                    </th>
+                    <th>
+                        <input style="width: 50px;" id='custom_order_ttn' placeholder="TTN #" type="text">
+                    </th>
+                    <th>
+                        <button id="save-custom-order" onclick="clickCreateCustomOrder()" type="submit">Add</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width: 80px;">Number Project</th>
+                    <th style="width: 100px;">Status</th>
+                    <th style="width: 80px;">Carrier</th>
+                    <th style="width: 150px;">Sender</th>
+                    <th>Receiver</th>
+                    <th>Document number</th>
+                    <th style="width: 50px;">TTN</th>
+                </tr>
+                {% for order in orders %}
+                    <tr>
+                        <td style="width: 80px;" >
+                            {% if order.projects %}
+                                {% for project in order.projects %}
+                                    <input style="width: 80px;" disabled  value="{{ project.name }}" type="text" id="project-name-{{order.id}}">
+                                {% endfor %}
+                            {% else %}
+                                <input style="width: 80px;" placeholder="Project name" type="text" id="project-name-{{order.id}}">
+                            {% endif %}   
+                            {% if order.invoices %}
+                                
+                                <input style="width: 80px;" disabled value="{{ order.invoices[0].name }}" id="invoice-{{ order.id }}" type="text">
+                                
+                            {% else %}
+                                <input style="width: 80px;" placeholder="Invoice" id="invoice-{{ order.id }}" type="text">
+                            {% endif %}
+
+                            {% if order.cargo %}
+                                <input style="width: 80px;" disabled value="{{ order.cargo }}" id="cargo-{{ order.id }}" type="text">
+                            {% else %}
+                                <input style="width: 80px;" value="Cargo" id="cargo-{{ order.id }}" type="text">
+                            {% endif %}          
+                        </td>
+                        
+                        <td>{{ order.state_order }}</td>
+                        <td>{{ order.carrier }}</td>
+                        <td>{{ order.sender }}</td>
+                        <td>{{ order.receiver }}</td>
+                        <td>{{ order.doc_number }}</td>
+                        <td>
+                            {% if order.ttn %}
+                                <input disabled style="width: 50px;" value="{{ order.ttn.name }} #" id="ttn-{{ order.id }}" type="text">
+                            {% else %}
+                                <input style="width: 50px;" placeholder="TTN #" id="ttn-{{ order.id }}" type="text">
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.projects or order.invoices or order.ttn %}
+                                <button hidden id="save-order-{{ order.id }}" onclick="clickSave('{{ order.id }}')" type="submit">Save</button>
+                                <button id="edit-order-{{ order.id }}" onclick="clickEdit('{{ order.id }}')" type="submit">Edit</button>
+                            {% else %}
+                                <button id="save-order-{{ order.id }}" onclick="clickSave('{{ order.id }}')" type="submit">Save</button>
+                                <button hidden id="edit-order-{{ order.id }}" onclick="clickEdit('{{ order.id }}')" type="submit">Edit</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div id="footer">
+        There will be a section "About me"
+    </div>
+</div>
 </body>
 </html>

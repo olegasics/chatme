@@ -18,7 +18,7 @@ body {
     background-color: azure;
     text-align: center;
     /*padding: 400px;*/
-    padding-left: 300px;
+    /* padding-left: 300px */
 }
 
 #footer {
@@ -33,6 +33,3 @@ body {
     margin-top: -200px;
 }
 
-#create-room {
-
-}

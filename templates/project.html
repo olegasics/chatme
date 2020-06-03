@@ -2,9 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Projects</title>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='js/templates/create_entity.js')}}"></script>
 </head>
 <body>
-$END$
+<div id="main">
+    <h1>Welcome</h1>
+        <div id="menu">
+
+            
+        </div>
+        <div id="content">
+
+            <div id="managers">
+                <form method="get" action="{{ url_for('ProjectView:get') }}">
+                    {% for project in projects %}
+                        <p>{{project.name}} | {{project.manager.small_name}} | {{project.customer}}</p>
+                    {% endfor %}
+
+                </form>
+                
+                    <input id="project-name" placeholder="Name" type="text" name="name">
+                    <input id="manager-small-name" placeholder="Manager" type="search" list="managers" name="manager_small_name">
+                    <input id="customer" placeholder="Customer" type="text" name="customer">
+                    <button id="create-project" onclick="clickCreateProject()" type="submit">Create project</button>
+
+            </div>
+        </div>
+
+        <div id="footer">
+            There will be a section "About me"
+        </div>
+</div>
 </body>
 </html>

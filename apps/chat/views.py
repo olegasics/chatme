@@ -1,68 +1,16 @@
-import db_config
-
 from flask.views import MethodView
-from flask import render_template, redirect, request, url_for, flash, session, abort
-from flask_login import login_user
-from datetime import datetime
+from flask import render_template, redirect, request, url_for, flash
+from flask_login import login_user, login_required
 from werkzeug.security import check_password_hash, generate_password_hash
-
 from apps.chat.models import Room, Message
 from apps.auth.models import User
-
-db = db_config.DbConnectSingleton.get_instance()
-app = db.app
-
-
-class UserAPIView(MethodView):
-
-    def get(self, user_id):
-
-        login = request.form.get('login')
-        password = request.form.get('password')
-
-        if login and password:
-            user = User.query.filter_by(login=login).first()
-
-            if check_password_hash(user.password, password):
-                login_user(user)
-
-                # save previous url for user and redirect him after auth
-                next_page = request.args.get('next')
-
-                return redirect(next_page)
-            else:
-                flash('Login or password is not correct. Try again')
-        else:
-            flash('Please enter login and password fields')
-
-
-    def post(self):
-        login = request.form['login']
-        password = request.form['password']
-        password2 = request.form['password2']
-        nick_name = request.form('nickname')
-
-        if not (login or password or password2):
-            flash('Please, enter all fields!')
-        elif password2 != password:
-            flash('Passwords are not equals!')
-        else:
-            hash_pwd = generate_password_hash(password)
-            new_user = User(login=login, password=hash_pwd, nick_name=nick_name)
-            db.session.add(new_user)
-            db.session.commit()
-        return render_template('login.html')
-
-    def put(self, user_id):
-        pass
-
-    def delete(self, user_id):
-
-        pass
+from db_config import db
 
 
 class MessageAPIView(MethodView):
+    @login_required
     def get(self, message_text):
+
         if message_text is None:
             # login = request.form['login']
             # if 'userLogged' not in session or session['userLogged'] != login:

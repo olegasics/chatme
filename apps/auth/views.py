@@ -1,18 +1,13 @@
-import db_config
-
 from flask.views import MethodView
 from flask import render_template, redirect, request, url_for, flash, session, abort
 from flask_login import login_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from apps.auth.models import User
-
-db = db_config.DbConnectSingleton.get_instance()
-app = db.app
+from .models import User, load_user
+from db_config import db
 
 
 class UserAPIView(MethodView):
-
     def get(self, id):
         login = request.form['login']
         password = request.form['password']
@@ -30,7 +25,6 @@ class UserAPIView(MethodView):
             flash('Please enter login and password fields')
 
     def post(self):
-
         login = request.form['login']
         password = request.form['password']
         password2 = request.form['password2']
@@ -65,11 +59,11 @@ class AuthAPIView(MethodView):
 
         if login and password:
             user = User.query.filter_by(login=login).first()
-
+            # user = db.find_by_name_and_password(login, password)
+            #
+            # if not user:
             if check_password_hash(user.password, password):
                 login_user(user)
-                # if user.password == password:
-                #     login_user(user)
                 session['userLogged'] = login
                 return redirect(url_for('message_api'))
             else:
@@ -83,6 +77,7 @@ class AuthAPIView(MethodView):
         # with app.test_request_context():
         #     print(url_for('user_api', login=login, password=password))
         # return redirect(url_for('user_api', login=login, password=password))
+
 
 class RegAPIView(MethodView):
     def get(self):

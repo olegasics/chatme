@@ -7,19 +7,16 @@
 </head>
 <body>
     <div id="main">
-    <h1>Welcome</h1>
+        <img src='/static/images/top_logo.gif' width="250" height="70">
         <div id="menu">
+            
 
-            <p><a href="{{ url_for('auth_api')}}">Registration</a></p>
-            <p><a href="{{ url_for('auth_api')}}">Auth</a></p>
+        <p>Project: {{ project.name }}</p>
+        <p>Manager: {{ project.manager.name }}</p>
+        <p>Customer: {{ project.customer }}</p>
         </div>
         <div id="content">
-            <div id="orders">
-                {% for order in orders %}
-                {{ order.stateName }} | {{ order.sender }}
-
-                {% endfor %}
-            </div>
+             {{ project.name }} 
 
             </div>
         </div>
